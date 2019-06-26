@@ -19,6 +19,16 @@ public class SysUser extends BaseIdEntity{
      */
     private String password;
 
+
+    public SysUser(String name, String loginName, String password) {
+        this.name = name;
+        this.loginName = loginName;
+        this.password = password;
+    }
+
+    public SysUser() {
+    }
+
     public String getName() {
         return name;
     }

@@ -20,10 +20,6 @@ public class SysUserDao {
      * 预编译查询语句
      */
     private PreparedStatement preparedStatement;
-    /**
-     * 查询出来的结果集
-     */
-    private ResultSet resultSet;
 
     /**
      * 根据登录名查询
@@ -36,7 +32,10 @@ public class SysUserDao {
         try {
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,loginName);
-            resultSet = preparedStatement.executeQuery();
+            /**
+             * 查询出来的结果集
+             */
+            ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 sysUser = fillUser(resultSet);
             }
@@ -53,8 +52,19 @@ public class SysUserDao {
      * @param user
      */
     public void addUser(SysUser user){
-        String sql = "INSERT INTO SYS_USER()";
-
+        String sql = "insert into SYS_USER(name_, login_name_, password_) values (?,?,?)";
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,user.getName());
+            preparedStatement.setString(2,user.getLoginName());
+            preparedStatement.setString(3,user.getPassword());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            DBUtil.closeConnection(connection);
+        }
     }
 
     /**
